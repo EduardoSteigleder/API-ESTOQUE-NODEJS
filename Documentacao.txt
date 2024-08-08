@@ -1,0 +1,148 @@
+Resumo da API
+A API de Controle de Estoque permite gerenciar produtos em um sistema de estoque. As principais funcionalidades incluem listar, criar, atualizar e excluir produtos. A API também inclui autenticação JWT para segurança.
+
+Banco de Dados
+Nome do Banco de Dados
+estoque
+
+Tabelas
+
+Tabela produtos
+
+id: INT (auto-incremento) - Identificador único do produto.
+nome: VARCHAR(255) - Nome do produto.
+descricao: TEXT - Descrição do produto.
+preco: DECIMAL(10, 2) - Preço do produto.
+quantidade: INT - Quantidade disponível em estoque.
+
+Tabela movimentacoes
+
+id: INT (auto-incremento) - Identificador único da movimentação.
+produto_id: INT - ID do produto associado à movimentação.
+tipo: VARCHAR(50) - Tipo da movimentação (entrada, saída, atualizacao).
+quantidade: INT - Quantidade movimentada.
+descricao: TEXT - Descrição da movimentação.
+data: DATETIME - Data e hora da movimentação.
+
+Autenticação
+A API utiliza autenticação JWT (JSON Web Token). Para acessar as rotas protegidas, inclua o token JWT no cabeçalho da requisição:
+
+Cabeçalho: Authorization: Bearer <token>
+Exemplo:Authorization: Bearer seuTokenJWT
+
+Endpoints
+
+1. Incluir Produto
+Método: POST
+URL: /api/produtos
+Descrição: Adiciona um novo produto ao estoque.
+
+Corpo da Requisição Exemplo:{
+    "nome": "Produto C",
+    "descricao": "Descrição do Produto C",
+    "preco": 30.00,
+    "quantidade": 75
+}
+
+Resposta Exemplo:{
+    "message": "Produto adicionado com sucesso",
+    "produtoId": 3
+}
+
+2. Excluir Produto
+Método: DELETE
+URL: /api/produtos/:id
+Descrição: Remove um produto do estoque pelo ID.
+Parâmetros:
+
+id (URL): ID do produto.
+Resposta Exemplo:{
+    "message": "Produto excluído com sucesso"
+}
+
+3. Atualizar Produto
+Método: PUT
+URL: /api/produtos/:id
+Descrição: Atualiza os detalhes de um produto existente pelo ID.
+Parâmetros:
+
+id (URL): ID do produto.
+Corpo da Requisição Exemplo:{
+    "nome": "Produto C Atualizado",
+    "descricao": "Descrição do Produto C Atualizada",
+    "preco": 35.00,
+    "quantidade": 80
+}
+
+Resposta Exemplo:{
+    "message": "Produto atualizado com sucesso"
+}
+
+4. Listar Todos os Produtos
+Método: GET
+URL: /api/produtos
+Descrição: Retorna uma lista de todos os produtos no estoque.
+Resposta Exemplo:[
+    {
+        "id": 1,
+        "nome": "Produto A",
+        "descricao": "Descrição do Produto A",
+        "preco": 10.00,
+        "quantidade": 100
+    },
+    {
+        "id": 2,
+        "nome": "Produto B",
+        "descricao": "Descrição do Produto B",
+        "preco": 20.00,
+        "quantidade": 50
+    }
+]
+
+5. Listar Um Produto Específico
+Método: GET
+URL: /api/produtos/:id
+Descrição: Retorna os detalhes de um produto específico pelo ID.
+Parâmetros:
+
+id (URL): ID do produto.
+Resposta Exemplo:{
+    "id": 1,
+    "nome": "Produto A",
+    "descricao": "Descrição do Produto A",
+    "preco": 10.00,
+    "quantidade": 100
+}
+
+6. Listar Movimentações
+Método: GET
+URL: /api/movimentacoes
+Descrição: Retorna uma lista de todas as movimentações registradas no sistema.
+Resposta Exemplo:[
+    {
+        "id": 1,
+        "produto_id": 1,
+        "tipo": "entrada",
+        "quantidade": 100,
+        "descricao": "Produto adicionado",
+        "data": "2024-08-01T12:00:00Z"
+    },
+    {
+        "id": 2,
+        "produto_id": 2,
+        "tipo": "saída",
+        "quantidade": 50,
+        "descricao": "Produto excluído",
+        "data": "2024-08-01T12:30:00Z"
+    }
+]
+
+Movimentações
+As movimentações são inseridas automaticamente pelo sistema para registrar ações realizadas sobre os produtos:
+
+Ao incluir um produto: É gerada uma movimentação de entrada.
+Ao excluir um produto: É gerada uma movimentação de saída.
+Ao atualizar um produto: É gerada uma movimentação de atualização.
+Essas movimentações ajudam a manter um histórico completo das alterações feitas no estoque.
+
+
