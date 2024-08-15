@@ -1,0 +1,20 @@
+CREATE DATABASE estoque;
+USE estoque;
+
+CREATE TABLE produtos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT,
+    preco DECIMAL(10, 2),
+    quantidade INT
+);
+
+CREATE TABLE movimentacoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    produto_id INT NOT NULL,
+    tipo ENUM('entrada', 'saída') NOT NULL,
+    quantidade INT,
+    descricao TEXT,
+    data DATETIME
+    -- Não há chaves estrangeiras aqui para evitar a ligação direta
+);
